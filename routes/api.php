@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TimeTrackerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
+
+Route::post('/tasks/{task}/start', [TimeTrackerController::class, 'start']);
+Route::put('/tasks/{task}/stop', [TimeTrackerController::class, 'stop']);
+
+Route::get('/tasks/summary', [TaskController::class, 'summary']);
+
