@@ -15,9 +15,10 @@ final class TaskLogic
     ) {
     }
     
-    public function getTimeSummary($filter): array
+    public function getTimeSummary(?string $filter, $command = false): array
     {
         $tasksWithTimes = !$filter ? $this->repository->getTimeTrackers() : $this->repository->getTimeTrackersWithFilter($filter);
+
         $summary = [];
     
         $perPage = $tasksWithTimes->perPage();
@@ -27,11 +28,20 @@ final class TaskLogic
         
         foreach ($tasksWithTimes as $task) 
         {
-            $summary[] = [
-                'name' => $task->name,
-                'today_time' => $this->timeUtils->formatDuration($task->today_time),
-                'total_time' => $this->timeUtils->formatDuration($task->total_time),
-            ];
+            if ($command) {
+                $summary[] = [
+                    'name' => $task->name,
+                    'created_at' => $task->created_at,
+                    'total_time' => $this->timeUtils->formatDuration($task->today_time),
+                    'timeTrackers' => $task->timeTrackers
+                ];
+            } else {
+                $summary[] = [
+                    'name' => $task->name,
+                    'today_time' => $this->timeUtils->formatDuration(intval($task->today_time)),
+                    'total_time' => $this->timeUtils->formatDuration(intval($task->total_time)),
+                ];
+            }
         }
     
         return [

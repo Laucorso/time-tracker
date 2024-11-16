@@ -24,9 +24,9 @@ final class GetTasksWithSummaryTrackersUseCase
         $this->model = $model;
     }
 
-    public function execute(?string $filter): array
+    public function execute(?string $filter, ?bool $command = false): array
     {
-        return (new TaskLogic($this->repository, $this->timeUtils))->getTimeSummary($filter);
+        return (new TaskLogic($this->repository, $this->timeUtils))->getTimeSummary($filter, $command);
     }
 
 }

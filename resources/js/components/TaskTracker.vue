@@ -8,7 +8,7 @@
         </div>
         <div class="task-tracker">
             <div class="input-container">
-                <input type="text" v-model="taskName" placeholder="Enter task name" class="task-input" />
+                <input type="text" v-model="taskName" :disabled="isTracking" placeholder="Enter task name" class="task-input" />
                 <button v-if="!isTracking" @click="startTask" class="ml-2 start-button">Start</button>
                 <button v-if="isTracking" @click="stopTask" class="ml-2 stop-button">Stop</button>
             </div>

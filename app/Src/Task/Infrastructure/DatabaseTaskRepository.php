@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Src\Task\Infrastructure;
 
 use App\Models\Task;
-use App\Src\Task\Domain\TaskEntity;
-use App\Src\Task\Domain\TaskId;
 use App\Src\Task\Domain\TaskRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -58,8 +56,10 @@ class DatabaseTaskRepository implements TaskRepository
                     $task->name = $task->name;
                     $task->total_time = $task->total_time ?: 0;
                     $task->today_time = $task->today_time ?: 0;
+                    $task->created_at = $task->created_at;
                     return $task;
                 });
+                //we can also use chunk to optimize request
     }
 
     public function getTimeTrackersWithFilter(string $filter): LengthAwarePaginator
