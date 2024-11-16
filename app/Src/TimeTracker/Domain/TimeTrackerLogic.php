@@ -8,6 +8,7 @@ use App\Models\Task;
 use App\Src\Task\Application\CreateTaskUseCase;
 use App\Src\Task\Application\FindTaskUseCase;
 use App\Src\Task\Domain\TaskRepository;
+use App\Utils\TimeUtils;
 
 final class TimeTrackerLogic
 {
@@ -15,6 +16,7 @@ final class TimeTrackerLogic
     public function __construct(
         private TimeTrackerRepository $repository,
         private TaskRepository $taskRepository,
+        private TimeUtils $timeUtils,
         private Task $modelTask
     ) {
     }
@@ -29,12 +31,13 @@ final class TimeTrackerLogic
         $this->repository->create($task['id']);
     }
 
-    public function end(int $durationMins, string $name): void
+    public function end(int $durationSecs, string $name): void
     {
         // getting first or create task firstly
         $findTaskUseCase = new FindTaskUseCase($this->taskRepository);
         $task = $findTaskUseCase->execute($name);
 
+        $durationMins = $this->timeUtils->secondsToMinutes($durationSecs);
         //updating tracker by task when end button click
         $this->repository->update($durationMins, $task['id']);
     }

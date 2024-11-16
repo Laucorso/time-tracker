@@ -14,9 +14,9 @@
             </div>
 
             <br><br>
-            <p v-if="isTracking" class="tracking-text">Tracking task: <span class="text-green-800 uppercase">{{ trackingTaskName }}</span></p>
+            <p v-if="isTracking" class="tracking-text">Tracking task: <span class="text-blue-900 uppercase">{{ trackingTaskName }}</span></p>
 
-            <p v-if="showTime" class="time-tracked">Time tracked: {{ formattedTimeTracked }}</p>
+            <p v-if="showTime" class="time-tracked">{{ formattedTimeTracked }}</p>
 
             <Notification v-if="notification.message" :message="notification.message" :type="notification.type" />
 
@@ -50,11 +50,12 @@ export default {
     },
     computed: {
         formattedTimeTracked() {
-            const hours = Math.floor(this.timeTracked / 60);  // Convert to hours
-            const minutes = this.timeTracked % 60;           // Remaining minutes
+            const hours = Math.floor(this.timeTracked / 3600); 
+            const minutes = Math.floor((this.timeTracked % 3600) / 60);
+            const seconds = this.timeTracked % 60;
 
-            return `${hours} hours ${minutes} minutes`;
-        },
+            return `${hours} hour${hours !== 1 ? 's' : ''} ${minutes} minute${minutes !== 1 ? 's' : ''} ${seconds} second${seconds !== 1 ? 's' : ''}`;
+        }
     },
     methods: {
         async startTask() {
@@ -88,10 +89,10 @@ export default {
             }
         },
         startCounter() {
-            this.trackingTaskName = this.taskName
+            this.trackingTaskName = this.taskName;
             this.intervalId = setInterval(() => {
-                this.timeTracked += 1; // Increment by 1 minute
-            }, 60000); // 1 minute interval
+                this.timeTracked += 1; 
+            }, 1000)
         },
         showNotification(message, type) {
             this.notification.message = message;
@@ -107,7 +108,7 @@ export default {
 
 <style scoped>
 .task-tracker {
-    @apply font-sans text-center max-w-4xl min-w-[450px] mx-auto p-6 bg-gray-100 rounded-lg shadow-md flex flex-col justify-center items-center;
+    @apply font-sans text-center max-w-4xl min-w-[450px] mx-auto p-6 bg-blue-200 rounded-lg shadow-md flex flex-col justify-center items-center;
 }
 
 .input-container {
@@ -124,7 +125,7 @@ export default {
 }
 
 .start-button {
-    @apply bg-green-500 text-white hover:bg-green-600;
+    @apply bg-blue-500 text-white hover:bg-blue-700;
 }
 
 .stop-button {
