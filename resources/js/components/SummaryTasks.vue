@@ -45,6 +45,7 @@ export default {
     Pagination,
   },
   data() {
+    //we can do reactive variables
     return {
       tasks: [],
       pagination: {

@@ -34,6 +34,7 @@ export default {
         Notification,
     },
     emits: ['task-stopped'],
+    //we can do reactive variables
     data() {
         return {
             taskName: '',
